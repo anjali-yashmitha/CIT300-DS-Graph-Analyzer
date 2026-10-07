@@ -1,9 +1,10 @@
+package analyzer;
 
 public class Node {
-    public Object data;
-    public Node next;
+    int data;
+    Node next;
 
-    public Node(Object data) {
+    public Node(int data) {
         this.data = data;
         this.next = null;
     }
