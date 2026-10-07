@@ -1,73 +1,111 @@
 package analyzer;
 
+import java.util.Scanner;
+
 public class QueueOperations {
-    private int[] queueArray;
+    private int[] queue;
     private int front;
     private int rear;
     private int size;
     private int capacity;
 
-    public QueueOperations() {
-        this(10);
-    }
-
     public QueueOperations(int capacity) {
         this.capacity = capacity;
-        this.queueArray = new int[capacity];
+        this.queue = new int[capacity];
         this.front = 0;
         this.rear = -1;
         this.size = 0;
     }
 
     public void enqueue(int value) {
-        if (isFull()) {
-            System.out.println("[Error] Queue Overflow! Cannot enqueue " + value);
+        if (size == capacity) {
+            System.out.println("Queue Overflow! Cannot enqueue " + value);
             return;
         }
         rear = (rear + 1) % capacity;
-        queueArray[rear] = value;
+        queue[rear] = value;
         size++;
-        System.out.println("[Success] Enqueued " + value + " to queue.");
+        System.out.println("Enqueued " + value + " to queue.");
     }
 
-    public int dequeue() {
-        if (isEmpty()) {
-            System.out.println("[Error] Queue Underflow! Cannot dequeue from empty queue.");
-            return -1;
+    public void dequeue() {
+        if (size == 0) {
+            System.out.println("Queue Underflow! Queue is empty.");
+            return;
         }
-        int dequeuedValue = queueArray[front];
+        System.out.println("Dequeued " + queue[front] + " from queue.");
         front = (front + 1) % capacity;
         size--;
-        System.out.println("[Success] Dequeued " + dequeuedValue + " from queue.");
-        return dequeuedValue;
     }
 
-    public int peekFront() {
-        if (isEmpty()) {
-            System.out.println("[Error] Queue is empty!");
-            return -1;
+    public void peekFront() {
+        if (size == 0) {
+            System.out.println("Queue is empty.");
+            return;
         }
-        return queueArray[front];
+        System.out.println("Front element: " + queue[front]);
     }
 
     public void display() {
-        if (isEmpty()) {
-            System.out.println("[Info] Queue is empty.");
+        if (size == 0) {
+            System.out.println("Queue is empty.");
             return;
         }
-        System.out.print("Queue (Front to Rear): ");
+        System.out.print("Queue elements (front to rear): ");
         for (int i = 0; i < size; i++) {
-            int index = (front + i) % capacity;
-            System.out.print(queueArray[index] + (i == size - 1 ? "" : " <- "));
+            System.out.print(queue[(front + i) % capacity] + " ");
         }
         System.out.println();
     }
 
-    public boolean isEmpty() {
-        return size == 0;
+    // Helper method to validate integer input
+    private int readInt(Scanner sc, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (sc.hasNextInt()) {
+                int value = sc.nextInt();
+                sc.nextLine(); // clear buffer
+                return value;
+            } else {
+                System.out.println("Invalid input! Please enter an integer.");
+                sc.nextLine(); // clear invalid token
+            }
+        }
     }
 
-    public boolean isFull() {
-        return size == capacity;
+    public void showMenu(Scanner sc) {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\n--- QUEUE OPERATIONS MENU ---");
+            System.out.println("1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Peek Front");
+            System.out.println("4. Display");
+            System.out.println("5. Return to Main Menu");
+
+            int choice = readInt(sc, "Enter choice: ");
+
+            switch (choice) {
+                case 1:
+                    int val = readInt(sc, "Enter value to enqueue: ");
+                    enqueue(val);
+                    break;
+                case 2:
+                    dequeue();
+                    break;
+                case 3:
+                    peekFront();
+                    break;
+                case 4:
+                    display();
+                    break;
+                case 5:
+                    exit = true;
+                    System.out.println("Returning to Main Menu...");
+                    break;
+                default:
+                    System.out.println("Invalid option. Choose between 1 and 5.");
+            }
+        }
     }
 }
