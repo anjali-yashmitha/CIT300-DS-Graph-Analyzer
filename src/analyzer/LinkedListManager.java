@@ -1,3 +1,4 @@
+
 public class LinkedListManager {
     private Node head;
 
