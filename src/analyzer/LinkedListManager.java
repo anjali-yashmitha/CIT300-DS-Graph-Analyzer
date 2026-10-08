@@ -24,7 +24,8 @@ public class LinkedListManager {
         System.out.println("Inserted " + data + " into the list.");
     }
 
-    // Delete method (Handles empty list, first node, middle/end, and value not found)
+    // Delete method (Handles empty list, first node, middle/end, and value not
+    // found)
     public void delete(int data) {
         if (head == null) {
             System.out.println("The list is empty.");
@@ -143,5 +144,6 @@ public class LinkedListManager {
                 sc.next(); // clear invalid input
             }
         } while (choice != 5);
+        sc.nextLine(); // remove the leftover Enter
     }
 }
