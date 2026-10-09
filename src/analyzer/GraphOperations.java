@@ -3,8 +3,6 @@ package analyzer;
 // Graph component by Navoda (23DA2-0219).
 // Stores the campus graph as an adjacency list and supports BFS and DFS.
 
-/*
-* Graph component of the Data Structure and Graph Performance...
 
 import java.util.ArrayList;
 import java.util.HashSet;
