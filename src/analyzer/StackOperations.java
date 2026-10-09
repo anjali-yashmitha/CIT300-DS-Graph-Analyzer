@@ -1,64 +1,103 @@
 package analyzer;
 
+import java.util.Scanner;
+
 public class StackOperations {
-    private int[] stackArray;
+    private int[] stack;
     private int top;
     private int capacity;
 
-    public StackOperations() {
-        this(10);
-    }
-
     public StackOperations(int capacity) {
         this.capacity = capacity;
-        this.stackArray = new int[capacity];
+        this.stack = new int[capacity];
         this.top = -1;
     }
 
     public void push(int value) {
-        if (isFull()) {
-            System.out.println("[Error] Stack Overflow! Cannot push " + value);
+        if (top == capacity - 1) {
+            System.out.println("Stack Overflow! Cannot push " + value);
             return;
         }
-        stackArray[++top] = value;
-        System.out.println("[Success] Pushed " + value + " to stack.");
+        stack[++top] = value;
+        System.out.println("Pushed " + value + " to stack.");
     }
 
-    public int pop() {
-        if (isEmpty()) {
-            System.out.println("[Error] Stack Underflow! Cannot pop from an empty stack.");
-            return -1;
+    public void pop() {
+        if (top == -1) {
+            System.out.println("Stack Underflow! Stack is empty.");
+            return;
         }
-        int poppedValue = stackArray[top--];
-        System.out.println("[Success] Popped " + poppedValue + " from stack.");
-        return poppedValue;
+        System.out.println("Popped " + stack[top--] + " from stack.");
     }
 
-    public int peek() {
-        if (isEmpty()) {
-            System.out.println("[Error] Stack is empty!");
-            return -1;
+    public void peek() {
+        if (top == -1) {
+            System.out.println("Stack is empty.");
+            return;
         }
-        return stackArray[top];
+        System.out.println("Top element: " + stack[top]);
     }
 
     public void display() {
-        if (isEmpty()) {
-            System.out.println("[Info] Stack is empty.");
+        if (top == -1) {
+            System.out.println("Stack is empty.");
             return;
         }
-        System.out.print("Stack (Top to Bottom): ");
+        System.out.print("Stack elements (top to bottom): ");
         for (int i = top; i >= 0; i--) {
-            System.out.print(stackArray[i] + (i == 0 ? "" : " -> "));
+            System.out.print(stack[i] + " ");
         }
         System.out.println();
     }
 
-    public boolean isEmpty() {
-        return top == -1;
+    // Helper method to validate integer input
+    private int readInt(Scanner sc, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (sc.hasNextInt()) {
+                int value = sc.nextInt();
+                sc.nextLine(); // clear buffer
+                return value;
+            } else {
+                System.out.println("Invalid input! Please enter an integer.");
+                sc.nextLine(); // clear invalid token
+            }
+        }
     }
 
-    public boolean isFull() {
-        return top == capacity - 1;
+    public void showMenu(Scanner sc) {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\n--- STACK OPERATIONS MENU ---");
+            System.out.println("1. Push");
+            System.out.println("2. Pop");
+            System.out.println("3. Peek");
+            System.out.println("4. Display");
+            System.out.println("5. Return to Main Menu");
+
+            int choice = readInt(sc, "Enter choice: ");
+
+            switch (choice) {
+                case 1:
+                    int val = readInt(sc, "Enter value to push: ");
+                    push(val);
+                    break;
+                case 2:
+                    pop();
+                    break;
+                case 3:
+                    peek();
+                    break;
+                case 4:
+                    display();
+                    break;
+                case 5:
+                    exit = true;
+                    System.out.println("Returning to Main Menu...");
+                    break;
+                default:
+                    System.out.println("Invalid option. Choose between 1 and 5.");
+            }
+        }
     }
 }
